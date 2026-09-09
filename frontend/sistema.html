@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guarda-Chaves Digital — Sistema</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="topo">
+        <div class="marca">
+            <h2><span aria-hidden="true">&#128273;</span> Guarda-Chaves Digital</h2>
+        </div>
+        <div class="topo-usuario">
+            <span id="nome-usuario">Usuário</span>
+            <button type="button" class="botao-secundario" id="botao-sair">Sair</button>
+        </div>
+    </header>
+
+    <main>
+        <div class="mensagem mensagem-sistema" id="mensagem-sistema" role="alert"></div>
+
+        <section aria-labelledby="titulo-chaves">
+            <h3 id="titulo-chaves">Chaves</h3>
+            <div class="cartao">
+                <div class="lista-chaves" id="lista-chaves">
+                    <p class="estado-vazio">Carregando chaves...</p>
+                </div>
+            </div>
+        </section>
+
+        <section aria-labelledby="titulo-meu-emprestimo">
+            <h3 id="titulo-meu-emprestimo">Meu empréstimo</h3>
+            <div class="cartao" id="meu-emprestimo">
+                <p class="estado-vazio">Carregando...</p>
+            </div>
+        </section>
+
+        <section aria-labelledby="titulo-historico">
+            <h3 id="titulo-historico">Histórico</h3>
+            <div class="cartao">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Chave</th>
+                            <th>Local</th>
+                            <th>Retirada</th>
+                            <th>Devolução</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tabela-historico">
+                        <tr><td colspan="5" class="estado-vazio">Carregando histórico...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="js/sistema.js"></script>
+</body>
+</html>

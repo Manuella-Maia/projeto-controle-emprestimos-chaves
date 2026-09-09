@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guarda-Chaves Digital — Entrar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="tela-login">
+        <div class="cartao-login">
+            <div class="marca">
+                <span class="marca-icone" aria-hidden="true">&#128273;</span>
+                <h1>Guarda-Chaves Digital</h1>
+            </div>
+            <p class="tagline">Controle de empréstimo e devolução de chaves</p>
+
+            <form id="form-login" novalidate>
+                <div class="campo">
+                    <label for="email">E-mail</label>
+                    <input type="email" id="email" name="email" placeholder="seu.email@exemplo.com" required autocomplete="username">
+                </div>
+
+                <div class="campo">
+                    <label for="senha">Senha</label>
+                    <input type="password" id="senha" name="senha" placeholder="••••••••" required autocomplete="current-password">
+                </div>
+
+                <button type="submit" class="botao-primario" id="botao-entrar">Entrar</button>
+
+                <div class="mensagem" id="mensagem-login" role="alert"></div>
+            </form>
+
+            <div class="credenciais-teste">
+                admin@guardachaves.com / admin123<br>
+                joao@guardachaves.com / joao123<br>
+                maria@guardachaves.com / maria123
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="js/login.js"></script>
+</body>
+</html>

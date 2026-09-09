@@ -1,0 +1,400 @@
+/* =================================================================
+   Guarda-Chaves Digital — estilos compartilhados
+   =================================================================
+   Paleta pensada em "quadro de chaves de oficina": fundo escuro
+   ardósia, latão como cor de destaque (as próprias chaves) e verde
+   para "disponível" / âmbar para "emprestada".
+   ================================================================= */
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap');
+
+:root {
+    --cor-fundo: #1E232B;
+    --cor-superficie: #262C36;
+    --cor-superficie-alta: #2E3542;
+    --cor-borda: #3A4250;
+    --cor-texto: #EDEAE2;
+    --cor-texto-suave: #A6AEBD;
+    --cor-latao: #C89B4A;
+    --cor-latao-forte: #E0B562;
+    --cor-disponivel: #5EA37A;
+    --cor-disponivel-fundo: rgba(94, 163, 122, 0.14);
+    --cor-emprestada: #D18A3F;
+    --cor-emprestada-fundo: rgba(209, 138, 63, 0.14);
+    --cor-erro: #D9695A;
+    --cor-erro-fundo: rgba(217, 105, 90, 0.14);
+
+    --fonte-titulo: 'IBM Plex Serif', Georgia, serif;
+    --fonte-corpo: 'IBM Plex Sans', system-ui, sans-serif;
+    --fonte-tag: 'IBM Plex Mono', 'Courier New', monospace;
+
+    --raio: 10px;
+    --sombra: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--cor-fundo);
+    background-image:
+        radial-gradient(circle at 15% 10%, rgba(200, 155, 74, 0.08), transparent 45%),
+        radial-gradient(circle at 85% 90%, rgba(94, 163, 122, 0.06), transparent 50%);
+    color: var(--cor-texto);
+    font-family: var(--fonte-corpo);
+    line-height: 1.5;
+}
+
+button {
+    font-family: inherit;
+    cursor: pointer;
+}
+
+button:focus-visible,
+input:focus-visible,
+a:focus-visible {
+    outline: 2px solid var(--cor-latao-forte);
+    outline-offset: 2px;
+}
+
+/* -----------------------------------------------------------------
+   Página de login
+   ----------------------------------------------------------------- */
+
+.tela-login {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+.cartao-login {
+    width: 100%;
+    max-width: 380px;
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio);
+    box-shadow: var(--sombra);
+    padding: 36px 32px;
+}
+
+.marca {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 4px;
+}
+
+.marca-icone {
+    font-size: 22px;
+    color: var(--cor-latao);
+}
+
+.cartao-login h1 {
+    font-family: var(--fonte-titulo);
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+    color: var(--cor-texto);
+}
+
+.cartao-login p.tagline {
+    margin: 6px 0 28px;
+    color: var(--cor-texto-suave);
+    font-size: 14px;
+}
+
+.campo {
+    margin-bottom: 18px;
+}
+
+.campo label {
+    display: block;
+    font-size: 13px;
+    color: var(--cor-texto-suave);
+    margin-bottom: 6px;
+}
+
+.campo input {
+    width: 100%;
+    padding: 11px 12px;
+    background: var(--cor-superficie-alta);
+    border: 1px solid var(--cor-borda);
+    border-radius: 6px;
+    color: var(--cor-texto);
+    font-size: 14px;
+    font-family: inherit;
+}
+
+.campo input::placeholder {
+    color: #6B7280;
+}
+
+.botao-primario {
+    width: 100%;
+    padding: 12px;
+    margin-top: 6px;
+    background: var(--cor-latao);
+    border: none;
+    border-radius: 6px;
+    color: #1E232B;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.botao-primario:hover {
+    background: var(--cor-latao-forte);
+}
+
+.botao-primario:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.mensagem {
+    margin-top: 16px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    font-size: 13px;
+    display: none;
+}
+
+.mensagem.erro {
+    display: block;
+    background: var(--cor-erro-fundo);
+    color: var(--cor-erro);
+}
+
+.mensagem.sucesso {
+    display: block;
+    background: var(--cor-disponivel-fundo);
+    color: var(--cor-disponivel);
+}
+
+.credenciais-teste {
+    margin-top: 24px;
+    padding-top: 18px;
+    border-top: 1px solid var(--cor-borda);
+    font-size: 12px;
+    color: var(--cor-texto-suave);
+    font-family: var(--fonte-tag);
+    line-height: 1.7;
+}
+
+/* -----------------------------------------------------------------
+   Página do sistema
+   ----------------------------------------------------------------- */
+
+.topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 32px;
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+.topo .marca h2 {
+    font-family: var(--fonte-titulo);
+    font-size: 18px;
+    margin: 0;
+}
+
+.topo-usuario {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.topo-usuario span {
+    font-size: 14px;
+    color: var(--cor-texto-suave);
+}
+
+.botao-secundario {
+    padding: 8px 14px;
+    background: transparent;
+    border: 1px solid var(--cor-borda);
+    border-radius: 6px;
+    color: var(--cor-texto);
+    font-size: 13px;
+}
+
+.botao-secundario:hover {
+    border-color: var(--cor-latao);
+    color: var(--cor-latao-forte);
+}
+
+main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 32px;
+    display: grid;
+    gap: 28px;
+}
+
+section h3 {
+    font-family: var(--fonte-titulo);
+    font-size: 16px;
+    font-weight: 600;
+    margin: 0 0 14px;
+    color: var(--cor-texto);
+}
+
+.cartao {
+    background: var(--cor-superficie);
+    border: 1px solid var(--cor-borda);
+    border-radius: var(--raio);
+    padding: 20px;
+}
+
+.lista-chaves {
+    display: grid;
+    gap: 10px;
+}
+
+.item-chave {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+    background: var(--cor-superficie-alta);
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+}
+
+.item-chave-info strong {
+    display: block;
+    font-size: 14px;
+}
+
+.item-chave-info span {
+    font-size: 13px;
+    color: var(--cor-texto-suave);
+}
+
+.status-tag {
+    font-family: var(--fonte-tag);
+    font-size: 11px;
+    padding: 4px 9px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.status-tag.disponivel {
+    background: var(--cor-disponivel-fundo);
+    color: var(--cor-disponivel);
+}
+
+.status-tag.emprestada {
+    background: var(--cor-emprestada-fundo);
+    color: var(--cor-emprestada);
+}
+
+.item-chave-acao {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.botao-retirar {
+    padding: 7px 14px;
+    background: var(--cor-latao);
+    border: none;
+    border-radius: 6px;
+    color: #1E232B;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.botao-retirar:hover {
+    background: var(--cor-latao-forte);
+}
+
+.botao-devolver {
+    padding: 7px 14px;
+    background: transparent;
+    border: 1px solid var(--cor-emprestada);
+    border-radius: 6px;
+    color: var(--cor-emprestada);
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.botao-devolver:hover {
+    background: var(--cor-emprestada-fundo);
+}
+
+.estado-vazio {
+    color: var(--cor-texto-suave);
+    font-size: 14px;
+}
+
+.emprestimo-ativo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.emprestimo-ativo-info strong {
+    display: block;
+    font-size: 15px;
+}
+
+.emprestimo-ativo-info span {
+    font-size: 13px;
+    color: var(--cor-texto-suave);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+thead th {
+    text-align: left;
+    padding: 8px 10px;
+    color: var(--cor-texto-suave);
+    font-weight: 500;
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+tbody td {
+    padding: 10px 10px;
+    border-bottom: 1px solid var(--cor-borda);
+}
+
+tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.mensagem-sistema {
+    margin-bottom: 4px;
+}
+
+@media (max-width: 640px) {
+    .topo {
+        padding: 16px 20px;
+    }
+
+    main {
+        padding: 20px;
+    }
+
+    .item-chave {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .item-chave-acao {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
