@@ -1,0 +1,8 @@
+RewriteEngine On
+
+RewriteBase /projeto_php_integracao/backend/
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^api/(.*)$ index.php [QSA,L]
