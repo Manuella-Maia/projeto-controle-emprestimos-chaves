@@ -8,6 +8,7 @@
 // =====================================================================
 
 import { login } from './api.js';
+import { tocarSomErro, tocarSomSucesso } from './audio.js';
 import { mostrarMensagem, limparMensagem } from './ui.js';
 
 const formulario = document.getElementById('form-login');
@@ -30,10 +31,12 @@ formulario.addEventListener('submit', async (evento) => {
         // realmente controla a sessão é o cookie do PHP, isto aqui é
         // só um detalhe de exibição.
         sessionStorage.setItem('nomeUsuario', corpo.dados.nome);
+        tocarSomSucesso();
         window.location.href = 'sistema.html';
         return;
     }
 
     botaoEntrar.disabled = false;
+    tocarSomErro();
     mostrarMensagem(mensagem, corpo.mensagem || 'Não foi possível entrar.', 'erro');
 });
