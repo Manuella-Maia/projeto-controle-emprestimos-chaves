@@ -15,6 +15,7 @@ import {
     buscarMeuEmprestimo,
     buscarHistorico,
 } from './api.js';
+import { tocarSomErro, tocarSomSucesso } from './audio.js';
 
 import {
     renderizarChaves,
@@ -74,10 +75,12 @@ async function aoClicarRetirar(chaveId) {
 
     if (!corpo.sucesso) {
         mostrarMensagem(mensagemSistemaEl, corpo.mensagem, 'erro');
+        tocarSomErro();
         return;
     }
 
     mostrarMensagem(mensagemSistemaEl, corpo.mensagem, 'sucesso');
+    tocarSomSucesso();
     atualizarTudo();
 }
 
@@ -110,10 +113,12 @@ async function aoClicarDevolver(emprestimoId) {
 
     if (!corpo.sucesso) {
         mostrarMensagem(mensagemSistemaEl, corpo.mensagem, 'erro');
+        tocarSomErro();
         return;
     }
 
     mostrarMensagem(mensagemSistemaEl, corpo.mensagem, 'sucesso');
+    tocarSomSucesso();
     atualizarTudo();
 }
 
