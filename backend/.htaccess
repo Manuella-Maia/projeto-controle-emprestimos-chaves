@@ -1,6 +1,6 @@
 RewriteEngine On
 
-RewriteBase /projeto_php_integracao/backend/
+RewriteBase /projeto-controle-emprestimos-chaves/backend/
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
