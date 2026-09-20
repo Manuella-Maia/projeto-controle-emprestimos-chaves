@@ -5,31 +5,38 @@
    ardósia, latão como cor de destaque (as próprias chaves) e verde
    para "disponível" / âmbar para "emprestada".
    ================================================================= */
-
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap');
-
 :root {
-    --cor-fundo: #1E232B;
-    --cor-superficie: #262C36;
-    --cor-superficie-alta: #2E3542;
-    --cor-borda: #3A4250;
-    --cor-texto: #EDEAE2;
-    --cor-texto-suave: #A6AEBD;
-    --cor-latao: #C89B4A;
-    --cor-latao-forte: #E0B562;
-    --cor-disponivel: #5EA37A;
-    --cor-disponivel-fundo: rgba(94, 163, 122, 0.14);
-    --cor-emprestada: #D18A3F;
-    --cor-emprestada-fundo: rgba(209, 138, 63, 0.14);
-    --cor-erro: #D9695A;
-    --cor-erro-fundo: rgba(217, 105, 90, 0.14);
+  /* Superfícies e Fundo (Dark Slate moderno) */
+  --cor-fundo: #0B0F19;
+  --cor-superficie: #151D2E;
+  --cor-superficie-alta: #1E293B;
+  --cor-borda: #26354A;
 
-    --fonte-titulo: 'IBM Plex Serif', Georgia, serif;
-    --fonte-corpo: 'IBM Plex Sans', system-ui, sans-serif;
-    --fonte-tag: 'IBM Plex Mono', 'Courier New', monospace;
+  /* Textos (Alto contraste e legibilidade nítida) */
+  --cor-texto: #F8FAFC;
+  --cor-texto-suave: #94A3B8;
 
-    --raio: 10px;
-    --sombra: 0 12px 28px rgba(0, 0, 0, 0.35);
+  /* Destaque / Ação (Laranja Âmbar refinado em vez do amarelo latão) */
+  --cor-latao: #F59E0B;
+  --cor-latao-forte: #D97706;
+  --cor-texto-botao: #0F172A; /* contraste ideal para texto sobre o botão laranja */
+
+  /* Badges e Status */
+  --cor-disponivel: #34D399;
+  --cor-disponivel-fundo: rgba(16, 185, 129, 0.12);
+  --cor-emprestada: #F59E0B;
+  --cor-emprestada-fundo: rgba(245, 158, 11, 0.14);
+  --cor-erro: #F87171;
+  --cor-erro-fundo: rgba(239, 68, 68, 0.14);
+
+  /* Tipografia (Inter — moderna, limpa e legível para dashboards) */
+  --fonte-titulo: 'Inter', system-ui, -apple-system, sans-serif;
+  --fonte-corpo: 'Inter', system-ui, -apple-system, sans-serif;
+  --fonte-tag: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Acabamento */
+  --raio: 10px;
+  --sombra: 0 16px 36px rgba(0, 0, 0, 0.45);
 }
 
 * {
@@ -84,14 +91,15 @@ a:focus-visible {
 
 .marca {
     display: flex;
-    align-items: baseline;
+    align-items: center;
     gap: 10px;
     margin-bottom: 4px;
 }
 
 .marca-icone {
-    font-size: 22px;
-    color: var(--cor-latao);
+    height: 32px;
+    width: 32px;
+    object-fit: contain;
 }
 
 .cartao-login h1 {
@@ -173,16 +181,6 @@ a:focus-visible {
     display: block;
     background: var(--cor-disponivel-fundo);
     color: var(--cor-disponivel);
-}
-
-.credenciais-teste {
-    margin-top: 24px;
-    padding-top: 18px;
-    border-top: 1px solid var(--cor-borda);
-    font-size: 12px;
-    color: var(--cor-texto-suave);
-    font-family: var(--fonte-tag);
-    line-height: 1.7;
 }
 
 /* -----------------------------------------------------------------
