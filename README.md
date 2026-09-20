@@ -1,6 +1,6 @@
 # Guarda-Chaves Digital
 
-Sistema web para controle de empréstimo e devolução de chaves físicas (salas, laboratórios, almoxarifado etc.), desenvolvido como projeto didático de **integração de sistemas**: frontend, backend, API, regras de negócio e banco de dados conversando de ponta a ponta, de um jeito simples o suficiente para todo o fluxo ser explicado numa apresentação.
+Sistema web para controle de empréstimo e devolução de chaves físicas (salas, laboratórios, almoxarifado etc.), com **integração completa entre frontend, backend, API, regras de negócio e banco de dados**.
 
 > Documentação relacionada: [`docs/arquitetura-backend.md`](docs/arquitetura-backend.md), [`docs/arquitetura-frontend.md`](docs/arquitetura-frontend.md) e [`docs/integracao-sistemas.md`](docs/integracao-sistemas.md).
 
@@ -17,8 +17,6 @@ Muitos ambientes (escolas, empresas, laboratórios) ainda controlam o empréstim
 5. quando termina de usar, devolve pelo próprio sistema;
 6. tudo fica registrado num histórico.
 
-O projeto **não** tenta ser um sistema completo de gestão patrimonial — o objetivo é demonstrar a arquitetura de integração, não a quantidade de funcionalidades (ver seção 21 do prompt original em `docs/`).
-
 ---
 
 ## 2. Tecnologias utilizadas
@@ -28,75 +26,80 @@ O projeto **não** tenta ser um sistema completo de gestão patrimonial — o ob
 | Frontend | HTML5, CSS3, JavaScript (ES Modules), `fetch()` |
 | Backend | PHP puro (sem framework) |
 | Comunicação | API HTTP/REST, JSON |
-| Banco de dados | MySQL (via XAMPP) |
+| Banco de dados | MySQL (via XAMPP/Laragon) |
 | Acesso a dados | PDO com *prepared statements* |
 | Autenticação | Sessão PHP (`$_SESSION`) |
-| Ambiente | XAMPP (Apache + MySQL) |
-| Teste de carga | [k6](https://k6.io/) |
-
-Propositalmente **fora** do escopo: Laravel/Symfony, JWT, Docker, ORM, React/Vue/Angular, microsserviços — ver a justificativa em [`docs/arquitetura-backend.md`](docs/arquitetura-backend.md#por-que-sem-framework).
+| Ambiente | XAMPP ou Laragon (Apache + MySQL) |
 
 ---
 
 ## 3. Pré-requisitos
 
-- [XAMPP](https://www.apachefriends.org/) instalado (Apache + MySQL + PHP 8+)
+- [XAMPP](https://www.apachefriends.org/) **ou** [Laragon](https://laragon.org/download) instalado (Apache + MySQL + PHP 8+) — escolha um dos dois, não precisa dos dois ao mesmo tempo
 - Um navegador atual (Chrome, Firefox, Edge) — o frontend usa ES Modules, que exigem um navegador moderno
 - [Git](https://git-scm.com/) (ou GitHub Desktop), para clonar o projeto
 - Opcional: Postman ou Insomnia, para testar a API diretamente
-- Opcional: [k6](https://k6.io/docs/get-started/installation/), para rodar o teste de carga (seção 12)
+
+> **XAMPP ou Laragon?** Os dois rodam Apache + MySQL + PHP e servem para este projeto igualmente bem. XAMPP funciona em Windows, Linux e macOS; Laragon é exclusivo para **Windows**, mas costuma ser mais leve e tem alguns recursos extras (como domínios locais automáticos, ex. `http://guardachaves.test`). O restante deste README trata os dois como equivalentes — troque apenas o caminho da pasta conforme a ferramenta que você usa.
 
 ---
 
 ## 4. Como clonar o projeto
 
-Com Git instalado, clone direto dentro do `htdocs` do XAMPP (evita ter que mover a pasta depois):
+Com Git instalado, clone direto dentro da pasta pública do XAMPP (`htdocs`) ou do Laragon (`www`) — evita ter que mover a pasta depois:
 
+**XAMPP:**
 ```bash
 cd C:\xampp\htdocs        # Windows — ajuste para o seu caminho do htdocs
 git clone <URL-do-repositorio> projeto-controle-emprestimos-chaves
 ```
 
-Se preferir GitHub Desktop: **File → Clone repository**, e escolha como destino local a pasta `htdocs` do XAMPP.
+**Laragon (Windows):**
+```bash
+cd C:\laragon\www
+git clone <URL-do-repositorio> projeto-controle-emprestimos-chaves
+```
 
-Sem Git, também dá pra baixar o `.zip` do repositório (botão **Code → Download ZIP** no GitHub) e extrair diretamente dentro do `htdocs`.
+Se preferir GitHub Desktop: **File → Clone repository**, e escolha como destino local a pasta `htdocs` do XAMPP ou a pasta `www` do Laragon.
 
-> **O nome da pasta importa.** O backend usa um `.htaccess` com `RewriteBase` apontando para o caminho exato do projeto dentro do `htdocs` (ver seção 5.1). Se você clonar com um nome de pasta diferente de `projeto-controle-emprestimos-chaves`, precisa atualizar essa linha — veja o aviso na seção 5.1.
+Sem Git, também dá pra baixar o `.zip` do repositório (botão **Code → Download ZIP** no GitHub) e extrair diretamente dentro do `htdocs` ou do `www`.
+
+> **O nome da pasta importa.** O backend usa um `.htaccess` com `RewriteBase` apontando para o caminho exato do projeto dentro do `htdocs`/`www` (ver seção 5.1). Se você clonar com um nome de pasta diferente de `projeto-controle-emprestimos-chaves`, precisa atualizar essa linha — veja o aviso na seção 5.1.
 
 ---
 
 ## 5. Como configurar e rodar
 
-### 5.1. Confirmar que o projeto está dentro do `htdocs`
+### 5.1. Confirmar que o projeto está dentro do `htdocs` (XAMPP) ou `www` (Laragon)
 
 O Apache só enxerga o que está dentro dessa pasta:
 
-| Sistema | Caminho padrão do `htdocs` |
-|---|---|
-| Windows | `C:\xampp\htdocs\` |
-| Linux | `/opt/lampp/htdocs/` |
-| macOS | `/Applications/XAMPP/htdocs/` |
+| Sistema | Ferramenta | Caminho padrão |
+|---|---|---|
+| Windows | XAMPP | `C:\xampp\htdocs\` |
+| Windows | Laragon | `C:\laragon\www\` |
+| Linux | XAMPP (LAMPP) | `/opt/lampp/htdocs/` |
+| macOS | XAMPP | `/Applications/XAMPP/htdocs/` |
 
-Resultado esperado:
+Resultado esperado (o nome da pasta raiz muda conforme a ferramenta — `htdocs` no XAMPP, `www` no Laragon — mas a estrutura dentro dela é igual):
 
 ```
-htdocs/
+htdocs/  (ou www/, no Laragon)
 └── projeto-controle-emprestimos-chaves/
     ├── backend/
     ├── frontend/
-    ├── docs/
-    └── tests/
+    └── docs/
 ```
 
 > **Se você renomear essa pasta**, abra `backend/.htaccess` e atualize a linha `RewriteBase` para o novo caminho:
 > ```apache
 > RewriteBase /nome-da-sua-pasta/backend/
 > ```
-> Esquecer esse ajuste é a causa mais comum de erro `404` ao chamar a API — o Apache tenta montar uma URL que não bate com o caminho real. Não precisa reiniciar o Apache depois de editar o `.htaccess`, ele é lido a cada requisição.
+> Esquecer esse ajuste é a causa mais comum de erro `404` ao chamar a API — o Apache tenta montar uma URL que não bate com o caminho real. Não precisa reiniciar o Apache depois de editar o `.htaccess`, ele é lido a cada requisição. Isso vale igualmente para XAMPP e Laragon.
 
 ### 5.2. Ligar Apache e MySQL
 
-Abra o painel de controle do XAMPP e clique em **Start** em **Apache** e em **MySQL**.
+Abra o painel de controle do XAMPP ou o Laragon e clique em **Start** em **Apache** e em **MySQL**.
 
 ### 5.3. Criar o banco de dados
 
@@ -112,7 +115,7 @@ Duas formas, escolha uma:
 ```bash
 mysql -u root -p < docs/database.sql
 ```
-(por padrão o XAMPP usa usuário `root` sem senha, então normalmente é só apertar Enter quando pedir a senha)
+(por padrão, tanto o XAMPP quanto o Laragon usam usuário `root` sem senha, então normalmente é só apertar Enter quando pedir a senha)
 
 Isso cria o banco `guarda_chaves`, as três tabelas (`usuarios`, `chaves`, `emprestimos`) e já insere dados de demonstração (ver seção 9).
 
@@ -120,7 +123,7 @@ Isso cria o banco `guarda_chaves`, as três tabelas (`usuarios`, `chaves`, `empr
 
 ### 5.4. Conferir a conexão
 
-Se o seu MySQL local tiver usuário/senha diferentes do padrão do XAMPP, ajuste em `backend/config/database.php`:
+Se o seu MySQL local tiver usuário/senha diferentes do padrão (root sem senha, usado tanto pelo XAMPP quanto pelo Laragon), ajuste em `backend/config/database.php`:
 
 ```php
 $usuario = 'root';
@@ -135,7 +138,9 @@ Com Apache e MySQL rodando e o banco criado, abra no navegador:
 http://localhost/projeto-controle-emprestimos-chaves/frontend/index.html
 ```
 
-> O caminho é longo porque o Apache serve tudo a partir do `htdocs`. Se quiser um endereço curto (ex.: `http://guardachaves.local/`), configure um Virtual Host — veja `docs/httpd-vhosts-exemplo.conf` para um modelo pronto.
+Esse endereço funciona igual no XAMPP e no Laragon.
+
+> O caminho é longo porque o Apache serve tudo a partir do `htdocs`/`www`. Se quiser um endereço curto (ex.: `http://guardachaves.local/`), configure um Virtual Host — veja `docs/httpd-vhosts-exemplo.conf` para um modelo pronto. No Laragon isso é ainda mais simples: com o **Auto Virtual Hosts** ativado, basta o projeto estar dentro do `www` para ficar disponível automaticamente em `http://projeto-controle-emprestimos-chaves.test/frontend/index.html`.
 
 ---
 
@@ -169,12 +174,14 @@ projeto-controle-emprestimos-chaves/
 │   └── index.php                # ponto de entrada / roteador
 │
 ├── docs/
-│   ├── database.sql              # banco principal (demonstração)
-│   ├── database_teste.sql        # banco isolado para o teste de carga
-│   ├── httpd-vhosts-exemplo.conf # modelo de Virtual Host (caminho curto)
-│   ├── arquitetura-backend.md
-│   ├── arquitetura-frontend.md
-│   └── integracao-sistemas.md
+│   ├── anotacaoFluxo.md
+│   ├── anotacaoHtaccess.md
+│   ├── imgs/
+│   │   ├── arquitetura.webp
+│   │   └── fluxoIntegracao.png
+│   ├── integracao-sistemas.md
+│   ├── modelo_fisico_BD.txt
+│   └── testesAPI.md
 │
 ├── frontend/
 │   ├── index.html               # login
@@ -185,10 +192,6 @@ projeto-controle-emprestimos-chaves/
 │       ├── ui.js                # única camada que mexe no DOM
 │       ├── login.js             # orquestra a página de login
 │       └── sistema.js           # orquestra a página do sistema
-│
-├── tests/
-│   └── teste_carga.js           # teste de carga (k6)
-│
 └── README.md
 ```
 
@@ -237,7 +240,7 @@ Já inseridos pelo `docs/database.sql`, com hashes reais de `password_hash()`:
 
 João Lira já entra com um empréstimo ativo (Chave do Almoxarifado), pra dar pra demonstrar a regra de "chave indisponível" sem precisar retirar nada antes.
 
-> Antes de uma apresentação real, remova o bloco de credenciais visível no rodapé de `frontend/index.html` — ele só existe pra facilitar o desenvolvimento.
+> Antes de qualquer uso em produção, remova o bloco de credenciais visível no rodapé de `frontend/index.html` — ele só existe pra facilitar o desenvolvimento.
 
 ---
 
@@ -255,47 +258,11 @@ Detalhes de implementação: [`docs/arquitetura-backend.md`](docs/arquitetura-ba
 
 ## 11. Testes automatizados
 
-Ainda não implementados nesta versão do projeto (Etapa 12 do roteiro de desenvolvimento, pendente). Quando forem escritos, devem cobrir principalmente as regras de negócio da seção 8 — login válido/inválido, retirada de chave disponível/indisponível, limite de um empréstimo ativo por usuário, e devolução própria vs. de terceiros.
+Ainda não implementados nesta versão do projeto. Quando forem escritos, devem cobrir principalmente as regras de negócio da seção 8 — login válido/inválido, retirada de chave disponível/indisponível, limite de um empréstimo ativo por usuário, e devolução própria vs. de terceiros.
 
 ---
 
-## 12. Teste de carga (k6)
-
-Além dos testes funcionais (pendentes), o projeto tem um teste de **carga/concorrência** em `tests/teste_carga.js`, usando [k6](https://k6.io/). Ele prova, com número de requisições reais, que a regra "uma chave só pode ser retirada por vez" (seção 8, regras 3 a 5) se sustenta mesmo com 50 usuários simultâneos tentando retirar a mesma chave.
-
-### 12.1. Banco isolado para o teste
-
-O teste de carga **nunca** toca no banco `guarda_chaves` usado na demonstração ao vivo. Ele se conecta a um banco separado (`guarda_chaves_teste`), criado a partir de `docs/database_teste.sql` — uma cópia exata do banco principal, só com outro nome.
-
-Isso funciona através de um header HTTP (`X-Ambiente-Teste: true`) que o script do k6 manda em toda chamada; `backend/config/database.php` olha esse header e escolhe o banco de acordo. O frontend normal nunca envia esse header, então o fluxo real de uso nunca é afetado.
-
-> Essa é uma simplificação pensada para rodar tudo no mesmo Apache/XAMPP sem precisar de um segundo Virtual Host. Ver o aviso de segurança direto no comentário de `database.php`.
-
-### 12.2. Instalar o k6
-
-```bash
-winget install k6 --source winget
-```
-
-(Ou veja outras opções de instalação em [k6.io/docs/get-started/installation](https://k6.io/docs/get-started/installation/).)
-
-### 12.3. Rodar o teste
-
-Com Apache, MySQL e os dois bancos (`guarda_chaves` e `guarda_chaves_teste`) já criados:
-
-```bash
-k6 run tests/teste_carga.js
-```
-
-Se o caminho do projeto no seu `htdocs` for diferente de `projeto-controle-emprestimos-chaves`, ajuste a constante `BASE_URL` no topo do arquivo antes de rodar.
-
-O teste se limpa sozinho antes e depois de cada execução (`setup()`/`teardown()` devolvem a chave usada no teste automaticamente) — pode rodar várias vezes seguidas sem precisar mexer no banco manualmente.
-
----
-
-## 13. Como contribuir
-
-Este é um projeto de estudo, então "contribuir" aqui significa principalmente: manter a mesma lógica ao adicionar algo novo.
+## 12. Como contribuir
 
 1. **Respeite a separação de camadas.** Regra de negócio nova → `services/`. SQL novo → `repository/`. Nada de SQL dentro de controller, e nada de regra de negócio dentro de rota.
 2. **Um endpoint novo = 4 passos**: método no Repository (se precisar de SQL novo) → método no Service (regra de negócio) → método no Controller (tradução HTTP/JSON) → uma condição a mais no arquivo de `routes/` correspondente. Se for um recurso totalmente novo, adicione o arquivo de rota também à lista `$arquivosDeRota` em `backend/index.php`.
@@ -303,5 +270,4 @@ Este é um projeto de estudo, então "contribuir" aqui significa principalmente:
 4. **No frontend, mantenha a separação `api.js` / `ui.js`.** Chamada de rede nova → `api.js`. Renderização nova → `ui.js`. O arquivo da página (`login.js`/`sistema.js`) só orquestra as duas.
 5. **Nomeação**: nomes de domínio (variáveis, tabelas, pastas específicas do projeto) em português; termos da linguagem/biblioteca (`fetch`, `PDO`, `try/catch`) permanecem em inglês, como já usado em todo o código.
 6. **Comentários explicam intenção**, não repetem o código — veja qualquer arquivo existente como referência de tom.
-7. **Se renomear a pasta do projeto**, atualize `backend/.htaccess` (`RewriteBase`) e a constante `BASE_URL` de `tests/teste_carga.js` — são os dois lugares onde o caminho fica "hardcoded".
-8. Antes de abrir mão da simplicidade (nova dependência, novo padrão de arquitetura), releia a seção "Restrições para evitar *overengineering*" do prompt original — o objetivo do projeto é ser pequeno o suficiente pra ser explicado por inteiro.
+7. **Se renomear a pasta do projeto**, atualize `backend/.htaccess` (`RewriteBase`) e a constante `BASE_URL` de `tests/teste_carga.js` — são os dois lugares onde o caminho fica "hardcoded". Isso vale para quem usa XAMPP ou Laragon.
